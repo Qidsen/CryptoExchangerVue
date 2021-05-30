@@ -15,7 +15,7 @@
 ## Back to the trade (changed fund)
 ![image](https://user-images.githubusercontent.com/49961010/120115908-617c8780-c18e-11eb-9549-6ff343c66897.png)
 
-## If you want to get access manually to route '/success-trade' and operation with exchanging didn't success, you will be redirected to main page!
+### If you want to get access manually to route '/success-trade' and operation with exchanging didn't success, you will be redirected to main page!
 
 ## Project setup
 ```
