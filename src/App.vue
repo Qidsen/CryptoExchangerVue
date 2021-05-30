@@ -11,14 +11,14 @@
 import Header from '@/components/Header'
 export default {
   name: 'App',
+  components: {
+    Header,
+  },
   computed: {
     allFund() {
       return this.$store.getters.allFund
-    }
+    },
   },
-  components: {
-    Header
-  }
 }
 </script>
 

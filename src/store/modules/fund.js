@@ -10,16 +10,16 @@ export default {
     },
     setDefaultLastTrade(state) {
       state.lastTrade = null
-    }
+    },
   },
   state: {
     fund: 100000,
-    lastTrade: null
+    lastTrade: null,
   },
   getters: {
     allFund(state) {
       return state.fund
-    }
+    },
   },
 }
 

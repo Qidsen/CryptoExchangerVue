@@ -6,5 +6,5 @@ export const CURRENCY_RATES = Object.freeze({
   DASH: 183,
   RUB: 0.015,
   UAH: 0.036,
-  USD: 1
+  USD: 1,
 })

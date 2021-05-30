@@ -3,7 +3,7 @@ import fund from '@/store/modules/fund'
 export default [
   {
     path: '/',
-    component: () => import('@/views/Exchanger')
+    component: () => import('@/views/Exchanger'),
   },
   {
     path: '/success-trade',
@@ -14,6 +14,6 @@ export default [
         next('/')
       }
       next()
-    }
-  }
+    },
+  },
 ]

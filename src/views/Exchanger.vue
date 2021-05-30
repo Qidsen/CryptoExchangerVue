@@ -1,6 +1,8 @@
 <template>
   <div class="mt-16">
-    <h1 class="d-flex justify-center exchanger__title">Converter</h1>
+    <h1 class="d-flex justify-center exchanger__title">
+      Converter
+    </h1>
     <div class="d-flex mx-auto mt-8 justify-space-between exchanger__fields-wrapper">
       <div class="exchanger__field-wrapper--small">
         <v-select
@@ -12,15 +14,19 @@
       </div>
       <div class="exchanger__field-wrapper--big">
         <v-text-field
-          type="number"
           v-model="inputGiveComputed"
+          type="number"
           :label="`Currency in ${selectGive}`"
           :error="Boolean(errorMsg)"
           hide-details="auto"
         />
       </div>
       <div @click="changeSelect">
-        <img class="exchanger__img-refresh"  :src="require('@/assets/img/svg/refresh.svg')" alt="refresh">
+        <img
+          class="exchanger__img-refresh"
+          :src="require('@/assets/img/svg/refresh.svg')"
+          alt="refresh"
+        >
       </div>
       <div class="exchanger__field-wrapper--small">
         <v-select
@@ -31,15 +37,19 @@
         />
       </div>
       <div class="exchanger__field-wrapper--big">
-        <v-text-field type="number"
+        <v-text-field
           v-model="inputReceiveComputed"
+          type="number"
           :label="`Currency in ${selectReceive}`"
           hide-details="auto"
           :error-messages="errorMsg"
         />
       </div>
     </div>
-    <div @click="tradeMoney" class="d-flex justify-center mt-16">
+    <div
+      class="d-flex justify-center mt-16"
+      @click="tradeMoney"
+    >
       <v-btn
         depressed
         :disabled="Boolean(errorMsg)"
@@ -73,11 +83,11 @@ export default {
     selectGive: CURRENCY_SLUG[0],
     selectReceive: CURRENCY_SLUG[1],
     CURRENCY_SLUG,
-    errorMsg: ''
+    errorMsg: '',
   }),
   methods: {
     ...mapMutations("fund", ["changeFund", "setLastTrade"]),
-    changeSelect() {
+    changeSelect () {
       let temp = this.selectGive
       this.selectGive = this.selectReceive
       this.selectReceive = temp
@@ -86,50 +96,58 @@ export default {
       this.inputGive = this.inputReceive
       this.inputReceive = temp  
     },
-    tradeMoney() {
+    tradeMoney () {
       if(!this.errorMsg) {
         this.changeFund(CURRENCY_RATES[this.selectReceive] * this.inputReceive)
         this.setLastTrade({
-          selectGive: this.selectGive, selectReceive: this.selectReceive, inputGive: this.inputGive, inputReceive: this.inputReceive
+          selectGive: this.selectGive,
+          selectReceive: this.selectReceive,
+          inputGive: this.inputGive,
+          inputReceive: this.inputReceive,
         })
         this.$router.push('/success-trade')
       }
-    }
+    },
   },
   computed: {
     ...mapState("fund", {
-      ourFund: 'fund'
+      ourFund: 'fund',
     }),
-    rate() {
+    rate () {
       return `1 ${this.selectReceive} = ${CURRENCY_RATES[this.selectReceive] / CURRENCY_RATES[this.selectGive]} ${this.selectGive}`
     },
-    fund() {
-      (this.ourFund / CURRENCY_RATES[this.selectReceive]) < this.inputReceive ? this.errorMsg = 'You have exceeded the currency reserve' : 
-        (this.inputGive <= 0 || this.inputReceive <= 0 ? this.errorMsg = 'Please enter right values' : this.errorMsg = '')
+    fund () {
+      if ((this.ourFund / CURRENCY_RATES[this.selectReceive]) < this.inputReceive) {
+        this.errorMsg = 'You have exceeded the currency reserve'
+      } else if (this.inputGive <= 0 || this.inputReceive <= 0) {
+        this.errorMsg = 'Please enter right values'
+      } else {
+        this.errorMsg = ''
+      }
   
       return `${this.ourFund / CURRENCY_RATES[this.selectReceive]} ${this.selectReceive}`
     },
     inputGiveComputed: {
-      get() {
-        this.isActive = true;
+      get () {
+        this.isActive = true
         return this.inputGive
       },
-      set(val) {
+      set (val) {
         this.inputReceive = val * CURRENCY_RATES[this.selectGive] / CURRENCY_RATES[this.selectReceive]
         this.inputGive = val
-      }
+      },
     },
     inputReceiveComputed: {
-      get() {
-        this.isActive = true;
+      get () {
+        this.isActive = true
         return this.inputReceive
       },
-      set(val) {
-        this.inputGive = val *  CURRENCY_RATES[this.selectReceive] / CURRENCY_RATES[this.selectGive]
+      set (val) {
+        this.inputGive = val * CURRENCY_RATES[this.selectReceive] / CURRENCY_RATES[this.selectGive]
         this.inputReceive = val
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 
