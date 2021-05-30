@@ -1,6 +1,4 @@
-export const CURRENCY_GIVE = Object.freeze(['RUB', 'UAH', 'USD'])
-
-export const CURRENCY_RECEIVE = Object.freeze(['BTC', 'ETH', 'DASH'])
+export const CURRENCY_SLUG = Object.freeze(['RUB', 'UAH', 'USD', 'BTC', 'ETH', 'DASH'])
 
 export const CURRENCY_RATES = Object.freeze({
   BTC: 34000,

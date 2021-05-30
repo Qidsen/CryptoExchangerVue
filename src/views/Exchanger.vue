@@ -5,15 +5,17 @@
       <div class="exchanger__field-wrapper--small">
         <v-select
           v-model="selectGive"
-          :items="CURRENCY_GIVE"
+          :items="CURRENCY_SLUG"
           label="Give"
           @change="inputGiveComputed = inputGiveComputed"
         />
       </div>
       <div class="exchanger__field-wrapper--big">
-        <v-text-field type="number"
+        <v-text-field
+          type="number"
           v-model="inputGiveComputed"
           :label="`Currency in ${selectGive}`"
+          :error="Boolean(errorMsg)"
           hide-details="auto"
         />
       </div>
@@ -23,7 +25,7 @@
       <div class="exchanger__field-wrapper--small">
         <v-select
           v-model="selectReceive"
-          :items="CURRENCY_RECEIVE"
+          :items="CURRENCY_SLUG"
           label="Receive"
           @change="inputReceiveComputed = inputReceiveComputed"
         />
@@ -33,43 +35,63 @@
           v-model="inputReceiveComputed"
           :label="`Currency in ${selectReceive}`"
           hide-details="auto"
+          :error-messages="errorMsg"
         />
       </div>
     </div>
-    <button :disabled="isActive" class="d-flex justify-center mx-auto mt-16 exchange__button-wrapper" type="submit">Trade</button>
+    <div @click="tradeMoney" class="d-flex justify-center mt-16">
+      <v-btn
+        depressed
+        :disabled="Boolean(errorMsg)"
+      >
+        {{ errorMsg ? 'Enter amount' : 'Exchange' }}
+      </v-btn>
+    </div>
     <div class="d-flex justify-center">
-      <div class="mt-16 exchanger__rate-wrapper">
-        <span>Rate</span> 
-        <br class="mt-16"> {{ rate }}
+      <div class="mx-auto mt-16 exchanger__rate-wrapper">
+        <span class="d-flex justify-center">Rate</span> 
+        <p> {{ rate }} </p>
       </div>
       <div class="mx-auto mt-16 exchanger__fund-wrapper">
-        <span>Fund</span> 
-        <br class="mt-16"> {{ fund }}
-      </div>  
+        <span class="d-flex justify-center">Fund</span> 
+        <p> {{ fund }} </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { CURRENCY_GIVE, CURRENCY_RECEIVE, CURRENCY_RATES } from '@/constants/CURRENCIES'
+import { CURRENCY_SLUG, CURRENCY_RATES } from '@/constants/CURRENCIES'
 
 export default {
   name: 'Exchanger',
   data: () => ({
     isActive: false,
-    temp: CURRENCY_GIVE[0],
     inputGive: 0,
     inputReceive: 0,
-    selectGive: CURRENCY_GIVE[0],
-    selectReceive: CURRENCY_RECEIVE[0],
-    CURRENCY_GIVE,
-    CURRENCY_RECEIVE,
+    ourFund: 100000,
+    selectGive: CURRENCY_SLUG[0],
+    selectReceive: CURRENCY_SLUG[1],
+    CURRENCY_SLUG,
+    errorMsg: ''
   }),
   methods: {
     changeSelect() {
-      this.temp = this.selectGive
+      let temp = this.selectGive
       this.selectGive = this.selectReceive
-      this.selectReceive = this.temp
+      this.selectReceive = temp
+
+      temp = this.inputGive
+      this.inputGive = this.inputReceive
+      this.inputReceive = temp  
+    },
+
+    tradeMoney() {
+      if(!this.errorMsg) {
+        this.ourFund -= this.inputReceive * CURRENCY_RATES[this.selectReceive]
+        return this.ourFund
+      }
+      else return
     }
   },
   computed: {
@@ -77,7 +99,10 @@ export default {
       return `1 ${this.selectReceive} = ${CURRENCY_RATES[this.selectReceive] / CURRENCY_RATES[this.selectGive]} ${this.selectGive}`
     },
     fund() {
-      return `500.000 ${this.selectReceive}`
+      this.ourFund < this.inputReceive ? this.errorMsg = 'You have exceeded the currency reserve' : 
+        (this.inputGive <= 0 || this.inputReceive <= 0 ? this.errorMsg = 'Please enter right values' : this.errorMsg = '')
+  
+      return `${this.ourFund / CURRENCY_RATES[this.selectReceive]} ${this.selectReceive}`
     },
     inputGiveComputed: {
       get() {
@@ -130,11 +155,13 @@ export default {
 .exchanger__rate-wrapper {
   position: fixed;
   left: 20%;
+  color: grey;
 }
 
 .exchanger__fund-wrapper {
   position: fixed;
   right: 20%;
+  color: grey;
 }
 
 .exchange__button-wrapper {
