@@ -1,8 +1,20 @@
 export default {
+  namespaced: true,
   actions: {},
-  mutations: {},
+  mutations: {
+    changeFund(state, payload) {
+      state.fund -= payload
+    },
+    setLastTrade(state, payload) {
+      state.lastTrade = payload
+    },
+    setDefaultLastTrade(state) {
+      state.lastTrade = null
+    }
+  },
   state: {
-    fund: []
+    fund: 100000,
+    lastTrade: null
   },
   getters: {
     allFund(state) {

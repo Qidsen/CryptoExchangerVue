@@ -62,6 +62,7 @@
 
 <script>
 import { CURRENCY_SLUG, CURRENCY_RATES } from '@/constants/CURRENCIES'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'Exchanger',
@@ -69,13 +70,13 @@ export default {
     isActive: false,
     inputGive: 0,
     inputReceive: 0,
-    ourFund: 100000,
     selectGive: CURRENCY_SLUG[0],
     selectReceive: CURRENCY_SLUG[1],
     CURRENCY_SLUG,
     errorMsg: ''
   }),
   methods: {
+    ...mapMutations("fund", ["changeFund", "setLastTrade"]),
     changeSelect() {
       let temp = this.selectGive
       this.selectGive = this.selectReceive
@@ -85,16 +86,20 @@ export default {
       this.inputGive = this.inputReceive
       this.inputReceive = temp  
     },
-
     tradeMoney() {
       if(!this.errorMsg) {
-        this.ourFund -= this.inputReceive * CURRENCY_RATES[this.selectReceive]
-        return this.ourFund
+        this.changeFund(CURRENCY_RATES[this.selectReceive] * this.inputReceive)
+        this.setLastTrade({
+          selectGive: this.selectGive, selectReceive: this.selectReceive, inputGive: this.inputGive, inputReceive: this.inputReceive
+        })
+        this.$router.push('/success-trade')
       }
-      else return
     }
   },
   computed: {
+    ...mapState("fund", {
+      ourFund: 'fund'
+    }),
     rate() {
       return `1 ${this.selectReceive} = ${CURRENCY_RATES[this.selectReceive] / CURRENCY_RATES[this.selectGive]} ${this.selectGive}`
     },
