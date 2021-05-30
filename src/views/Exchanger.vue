@@ -104,7 +104,7 @@ export default {
       return `1 ${this.selectReceive} = ${CURRENCY_RATES[this.selectReceive] / CURRENCY_RATES[this.selectGive]} ${this.selectGive}`
     },
     fund() {
-      this.ourFund < this.inputReceive ? this.errorMsg = 'You have exceeded the currency reserve' : 
+      (this.ourFund / CURRENCY_RATES[this.selectReceive]) < this.inputReceive ? this.errorMsg = 'You have exceeded the currency reserve' : 
         (this.inputGive <= 0 || this.inputReceive <= 0 ? this.errorMsg = 'Please enter right values' : this.errorMsg = '')
   
       return `${this.ourFund / CURRENCY_RATES[this.selectReceive]} ${this.selectReceive}`

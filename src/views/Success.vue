@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <h1>You exchanged your {{ `${lastTrade.inputGive} ${lastTrade.selectGive} to ${lastTrade.inputReceive} ${lastTrade.selectReceive}.` }}</h1>
-    <div @click="back">
+  <div class="d-flex flex-column align-center mx-auto mt-16">
+    <h1 class="success__title">You exchanged your {{ `${lastTrade.inputGive} ${lastTrade.selectGive} to ${lastTrade.inputReceive} ${lastTrade.selectReceive}.` }}</h1>
+    <router-link class="mt-8 success__link-back" to="/">
       <v-btn depressed>
         Back
       </v-btn>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -15,9 +15,6 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'Success',
   methods: {
-    back() {
-      this.$router.push('/')
-    },
     ...mapMutations("fund", ['setDefaultLastTrade'])
   },
   beforeDestroy() {
@@ -28,3 +25,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.success__title {
+  color: $success-color;
+}
+
+.success__link-back {
+  text-decoration: none;
+}
+</style>
