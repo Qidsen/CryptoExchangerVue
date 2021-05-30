@@ -4,7 +4,7 @@
 ![image](https://user-images.githubusercontent.com/49961010/120115160-1c0a8b00-c18b-11eb-8d6f-d3698c332194.png)
 
 ## Valid data for trade
-![image](https://user-images.githubusercontent.com/49961010/120115241-7572ba00-c18b-11eb-9eec-09131b282783.png)
+![image](https://user-images.githubusercontent.com/49961010/120116045-ed8eaf00-c18e-11eb-932e-e385c6b9b932.png)
 
 ## Changing currency on click icon switch
 ![image](https://user-images.githubusercontent.com/49961010/120115475-79eba280-c18c-11eb-8ad9-173272c9e2e2.png)
