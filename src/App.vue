@@ -1,27 +1,20 @@
 <template>
-  <v-app>
-    <Header />  
-    <v-main>
-      <router-view /> 
-    </v-main>
-  </v-app>
+  <div class="d-flex">
+    <Sidebar />
+    <router-view />
+  </div>
 </template>
 
 <script>
-import Header from '@/components/Header'
+import Sidebar from '@/components/Sidebar'
 export default {
   name: 'App',
   components: {
-    Header,
-  },
-  computed: {
-    allFund() {
-      return this.$store.getters.allFund
-    },
+    Sidebar,
   },
 }
 </script>
 
 <style lang="scss">
-
+@import "~@/assets/styles/global.scss";
 </style>
