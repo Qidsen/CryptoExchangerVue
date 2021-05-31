@@ -1,16 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
+import store from '@/store/store'
 import router from '@/router'
-import ElementUI from 'element-ui'
+import Vuetify from 'vuetify'
 
-import 'element-ui/lib/theme-chalk/index.css'
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.config.productionTip = false
 
-Vue.use(ElementUI)
+Vue.use(Vuetify)
 
 new Vue({
+  store,
   router,
+  vuetify: new Vuetify({}),
   render: h => h(App),
 }).$mount('#app')
-  
